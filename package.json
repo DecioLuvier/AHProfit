@@ -1,0 +1,26 @@
+{
+	"name": "ahprofit",
+	"type": "module",
+	"private": true,
+	"version": "0.0.1",
+	"license": "AGPL-3.0-or-later",
+	"engines": {
+		"bun": ">=1.2.0"
+	},
+	"workspaces": [
+		"api-hono",
+		"web-react",
+		"desktop-webview"
+	],
+	"scripts": {
+		"dev": "bun run --parallel --filter api-hono --filter web-react dev",
+		"build": "bun run --filter web-react build",
+		"test": "bun test",
+		"typecheck": "bun run --filter '*' typecheck",
+		"lint": "biome check .",
+		"format": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.0"
+	}
+}

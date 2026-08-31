@@ -1,0 +1,28 @@
+{
+	"name": "desktop-webview",
+	"type": "module",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"prep": "rimraf build && cd ../web-react && bun run build && cd ../desktop-webview && cpy \"../web-react/dist/**\" build/dist && cpy icon.ico build",
+		"build:win-x64": "bun run prep && bun build --compile --minify --sourcemap=none --target=bun-windows-x64 --windows-hide-console --windows-icon=icon.ico ./index.ts --outfile build/ahprofit-windows-x64.exe",
+		"build:linux-x64": "bun run prep && bun build --compile --minify --sourcemap=none --target=bun-linux-x64 ./index.ts --outfile build/ahprofit-linux-x64",
+		"build:linux-arm64": "bun run prep && bun build --compile --minify --sourcemap=none --target=bun-linux-arm64 ./index.ts --outfile build/ahprofit-linux-arm64",
+		"build:darwin-x64": "bun run prep && bun build --compile --minify --sourcemap=none --target=bun-darwin-x64 ./index.ts --outfile build/ahprofit-darwin-x64",
+		"build:darwin-arm64": "bun run prep && bun build --compile --minify --sourcemap=none --target=bun-darwin-arm64 ./index.ts --outfile build/ahprofit-darwin-arm64"
+	},
+	"dependencies": {
+		"hono": "^4.13.4",
+		"minimist": "^1.2.8",
+		"webview-bun": "2.4.0",
+		"zod": "^4.4.3"
+	},
+	"devDependencies": {
+		"@types/bun": "^1.4.0",
+		"@types/minimist": "^1.2.5",
+		"cpy-cli": "^5.0.0",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.9.3"
+	}
+}
