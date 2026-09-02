@@ -1,39 +1,27 @@
-import { useLocation } from "react-router-dom";
-
 export function Background() {
-	const { pathname } = useLocation();
-	const dimmed = pathname !== "/";
-
 	return (
-		<>
+		<div aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 0 }}>
+			{/* Arte do hero — dessaturada, para virar textura e não competir com a UI */}
 			<div
-				aria-hidden="true"
 				style={{
-					position: "fixed",
+					position: "absolute",
 					inset: 0,
-					zIndex: 0,
-					backgroundImage: "url(/assets/hero-bg.png)",
+					backgroundImage: "url(/assets/hero-bg.jpg)",
 					backgroundSize: "cover",
 					backgroundPosition: "center center",
 					backgroundRepeat: "no-repeat",
+					filter: "saturate(0.95) brightness(1.08)",
 				}}
 			/>
+			{/* Scrim frio: vinheta que deixa a arte respirar pelas bordas sem competir */}
 			<div
-				aria-hidden="true"
 				style={{
-					position: "fixed",
+					position: "absolute",
 					inset: 0,
-					zIndex: 0,
 					background:
-						"linear-gradient(180deg, oklch(0.08 0.03 270 / 0.18) 0%, oklch(0.07 0.04 280 / 0.40) 50%, oklch(0.06 0.025 270 / 0.62) 100%)",
+						"radial-gradient(135% 135% at 50% 0%, oklch(0.12 0.02 275 / 0.26), oklch(0.08 0.018 278 / 0.58))",
 				}}
 			/>
-			{dimmed && (
-				<div
-					aria-hidden="true"
-					style={{ position: "fixed", inset: 0, zIndex: 0, background: "oklch(0.07 0.03 270 / 0.20)" }}
-				/>
-			)}
-		</>
+		</div>
 	);
 }

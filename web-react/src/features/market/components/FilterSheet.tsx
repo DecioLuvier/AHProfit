@@ -186,21 +186,23 @@ export function FilterSheet(props: FilterSheetProps) {
 	const close = () => props.onMobileOpenChange?.(false);
 	const rootStyle: CSSProperties = compact
 		? {
+				/* Overlay ancorado ao container (.market-layout, position: relative):
+				   mesma altura vertical do glass principal. */
 				display: props.mobileOpen ? "flex" : "none",
-				position: "fixed",
-				top: 72,
-				right: 12,
-				bottom: 12,
+				position: "absolute",
+				top: 0,
+				right: 0,
+				bottom: 0,
 				left: "auto",
-				width: "min(420px, calc(100vw - 24px))",
-				zIndex: 120,
+				width: "min(420px, 100%)",
+				zIndex: 20,
 				flexDirection: "column",
 				minHeight: 0,
 				background: "var(--panel-head-solid)",
 				border: "1px solid var(--border-strong)",
 				borderRadius: "var(--radius)",
 				overflow: "hidden",
-				boxShadow: "0 24px 70px oklch(0 0 0 / 0.6)",
+				boxShadow: "-24px 0 70px oklch(0 0 0 / 0.55)",
 			}
 		: {
 				width: 480,
@@ -221,11 +223,12 @@ export function FilterSheet(props: FilterSheetProps) {
 				<div
 					onClick={close}
 					style={{
-						position: "fixed",
+						position: "absolute",
 						inset: 0,
-						zIndex: 119,
-						background: "oklch(0 0 0 / 0.55)",
+						zIndex: 19,
+						background: "oklch(0 0 0 / 0.5)",
 						backdropFilter: "blur(2px)",
+						borderRadius: "var(--radius)",
 					}}
 				/>
 			)}
@@ -267,7 +270,7 @@ export function FilterSheet(props: FilterSheetProps) {
 								padding: "0 14px",
 								borderRadius: 999,
 								border: "1px solid var(--border-strong)",
-								background: "oklch(0.2 0.03 265)",
+								background: "var(--panel-head-solid)",
 								color: "var(--text)",
 								fontSize: 12.5,
 								fontWeight: 700,
@@ -304,7 +307,7 @@ export function FilterSheet(props: FilterSheetProps) {
 									padding: "0 4px",
 									border: "none",
 									borderBottom: `2px solid ${on ? "var(--accent)" : "transparent"}`,
-									background: on ? "oklch(0.25 0.032 260)" : "transparent",
+									background: on ? "oklch(0.64 0.18 285 / 0.16)" : "transparent",
 									color: on ? "var(--text)" : "var(--text-dim)",
 									fontFamily: "var(--font-body)",
 									fontSize: 12,
@@ -454,7 +457,7 @@ function OptionRow({
 				cursor: "pointer",
 				border: "none",
 				borderLeft: `2px solid ${on ? "var(--accent)" : "transparent"}`,
-				background: on ? "linear-gradient(95deg, oklch(0.32 0.06 205 / 0.4), oklch(0.2 0.026 260 / 0))" : "transparent",
+				background: on ? "linear-gradient(95deg, oklch(0.64 0.18 285 / 0.3), oklch(0.64 0.18 285 / 0))" : "transparent",
 			}}
 		>
 			<span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 1 }}>
@@ -496,10 +499,10 @@ function OptionRow({
 				}}
 			>
 				{on && shape === "square" && (
-					<span style={{ fontSize: 10, fontWeight: 900, color: "oklch(0.14 0.02 260)", lineHeight: 1 }}>✓</span>
+					<span style={{ fontSize: 10, fontWeight: 900, color: "oklch(0.16 0.02 285)", lineHeight: 1 }}>✓</span>
 				)}
 				{on && shape === "circle" && (
-					<span style={{ width: 6, height: 6, borderRadius: "50%", background: "oklch(0.14 0.02 260)" }} />
+					<span style={{ width: 6, height: 6, borderRadius: "50%", background: "oklch(0.16 0.02 285)" }} />
 				)}
 			</span>
 		</button>
@@ -623,7 +626,7 @@ function FiltersPane(props: {
 								padding: "8px 4px",
 								borderRadius: "var(--radius)",
 								border: `1px solid ${on ? "var(--accent)" : "var(--border-strong)"}`,
-								background: on ? "oklch(0.32 0.06 205 / 0.35)" : "var(--panel)",
+								background: on ? "oklch(0.64 0.18 285 / 0.22)" : "var(--panel)",
 								cursor: "pointer",
 								opacity: on || props.qualityTier.size === 0 ? 1 : 0.5,
 							}}
@@ -645,9 +648,9 @@ function FiltersPane(props: {
 			</div>
 			<div
 				style={{
-					background: "var(--panel-solid)",
+					background: "var(--panel-inset)",
 					border: "1px solid var(--border-soft)",
-					borderRadius: "var(--radius)",
+					borderRadius: 6,
 					flex: 1,
 					minHeight: 60,
 					overflowY: "auto",
@@ -671,9 +674,9 @@ function FiltersPane(props: {
 				<div style={{ ...railLabelStyle, padding: "0 2px 6px" }}>Thresholds</div>
 				<div
 					style={{
-						background: "var(--panel-solid)",
+						background: "var(--panel-inset)",
 						border: "1px solid var(--border-soft)",
-						borderRadius: "var(--radius)",
+						borderRadius: 6,
 						maxHeight: 200,
 						overflowY: "auto",
 						display: "flex",
@@ -787,7 +790,7 @@ function optionChipStyle(on: boolean): CSSProperties {
 		fontWeight: on ? 600 : 400,
 		cursor: "pointer",
 		border: `1px solid ${on ? "var(--accent)" : "var(--border-strong)"}`,
-		background: on ? "oklch(0.32 0.06 205 / 0.35)" : "transparent",
+		background: on ? "oklch(0.64 0.18 285 / 0.22)" : "transparent",
 		color: on ? "var(--accent-strong)" : "var(--text-dim)",
 	};
 }
@@ -823,7 +826,7 @@ function ClassPane(props: {
 								justifyContent: "center",
 								borderRadius: "var(--radius)",
 								border: `1px solid ${on ? "var(--accent)" : "var(--border-strong)"}`,
-								background: on ? "oklch(0.29 0.05 205 / 0.35)" : "var(--panel)",
+								background: on ? "oklch(0.64 0.18 285 / 0.22)" : "var(--panel)",
 								cursor: "pointer",
 							}}
 						>
@@ -905,7 +908,7 @@ function ExpansionPane({ expansions, onToggle }: { expansions: Set<string>; onTo
 							border: `1px solid ${on ? "var(--accent)" : "var(--border-strong)"}`,
 							cursor: "pointer",
 							textAlign: "left",
-							background: on ? "oklch(0.29 0.05 205 / 0.3)" : "var(--panel-solid)",
+							background: on ? "oklch(0.64 0.18 285 / 0.22)" : "var(--panel-solid)",
 							boxShadow: on ? "0 0 0 1px var(--accent)" : "none",
 							opacity: on || expansions.size === 0 ? 1 : 0.55,
 						}}

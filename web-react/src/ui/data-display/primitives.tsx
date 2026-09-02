@@ -71,7 +71,7 @@ export function CursorPagination({ nextCursor, canGoPrev, onNext, onPrev, rangeL
 		fontWeight: 600,
 		cursor: "pointer",
 		border: "1px solid var(--border-strong)",
-		background: "oklch(0.14 0.02 260 / 0.6)",
+		background: "var(--panel-head-solid)",
 		color: "var(--text)",
 		transition: "filter 0.15s",
 	};
@@ -89,8 +89,8 @@ export function CursorPagination({ nextCursor, canGoPrev, onNext, onPrev, rangeL
 				type="button"
 				style={{
 					...btnBase,
-					background: nextCursor ? "var(--accent)" : "oklch(0.14 0.02 260 / 0.6)",
-					color: nextCursor ? "oklch(0.14 0.02 260)" : "var(--text)",
+					background: nextCursor ? "var(--accent)" : "var(--panel-head-solid)",
+					color: nextCursor ? "oklch(0.16 0.02 285)" : "var(--text)",
 					opacity: nextCursor ? 1 : 0.35,
 					cursor: nextCursor ? "pointer" : "not-allowed",
 				}}

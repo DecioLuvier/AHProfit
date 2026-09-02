@@ -35,9 +35,9 @@ const sectionHeadingStyle = {
 const emptyStyle = { color: "var(--text-dimmer)", fontSize: 12.5, margin: 0 };
 const dividerStyle = { border: "none", borderTop: "1px solid var(--border-soft)", margin: 0 };
 const boxStyle = {
-	background: "var(--panel-solid)",
+	background: "var(--panel-inset)",
 	border: "1px solid var(--border-soft)",
-	borderRadius: 8,
+	borderRadius: 6,
 	padding: 10,
 	boxSizing: "border-box" as const,
 };
@@ -232,7 +232,7 @@ export function ItemDetailPage() {
 							fontSize: 12,
 							fontWeight: 600,
 							border: "1px solid var(--border-strong)",
-							background: "oklch(0.14 0.02 260 / 0.6)",
+							background: "var(--panel-head-solid)",
 							color: "var(--text-dim)",
 							cursor: "pointer",
 							flexShrink: 0,

@@ -39,7 +39,7 @@ function CharacterAvatar({ characterClass, race, gender }: { characterClass: str
 						right: -4,
 						bottom: -4,
 						borderRadius: 4,
-						border: "1.5px solid oklch(0.14 0.02 260)",
+						border: "1.5px solid oklch(0.16 0.02 285)",
 					}}
 				/>
 			)}
@@ -70,24 +70,28 @@ export function CharactersPage() {
 	useLayoutEffect(() => {
 		const el = layoutRef.current;
 		if (!el) return;
-		const measure = () =>
-			setCompact((prev) => {
-				const w = el.clientWidth;
-				return prev ? w < COMPACT_BELOW + HYSTERESIS : w < COMPACT_BELOW;
-			});
-		const update = () => {
-			measure();
-			requestAnimationFrame(measure);
+		let raf = 0;
+		let lastW = -1;
+		const measure = () => {
+			raf = 0;
+			const w = el.clientWidth;
+			if (w === lastW) return; // ignora mudança só de altura → sem flicker
+			lastW = w;
+			setCompact((prev) => (prev ? w < COMPACT_BELOW + HYSTERESIS : w < COMPACT_BELOW));
 		};
-		update();
-		const ro = new ResizeObserver(update);
+		const schedule = () => {
+			if (!raf) raf = requestAnimationFrame(measure);
+		};
+		measure();
+		const ro = new ResizeObserver(schedule);
 		ro.observe(el);
-		window.addEventListener("resize", update);
-		document.addEventListener("visibilitychange", update);
+		window.addEventListener("resize", schedule);
+		document.addEventListener("visibilitychange", schedule);
 		return () => {
 			ro.disconnect();
-			window.removeEventListener("resize", update);
-			document.removeEventListener("visibilitychange", update);
+			window.removeEventListener("resize", schedule);
+			document.removeEventListener("visibilitychange", schedule);
+			if (raf) cancelAnimationFrame(raf);
 		};
 	}, []);
 
@@ -253,8 +257,8 @@ export function CharactersPage() {
 												justifyContent: "center",
 												width: BAG_CELL,
 												height: BAG_CELL,
-												borderRadius: 7,
-												background: "oklch(0.12 0.02 260 / 0.5)",
+												borderRadius: 6,
+												background: "var(--panel-inset)",
 												textDecoration: "none",
 												color: "inherit",
 												transition: "transform 0.15s, box-shadow 0.15s",
@@ -376,7 +380,7 @@ export function CharactersPage() {
 											padding: "10px 16px",
 											fontSize: 13,
 											boxSizing: "border-box",
-											background: selected ? "oklch(0.4 0.06 260 / 0.18)" : "transparent",
+											background: selected ? "oklch(0.64 0.18 285 / 0.16)" : "transparent",
 											border: "none",
 											borderTop: "1px solid var(--border-soft)",
 											cursor: "pointer",

@@ -59,7 +59,7 @@ export function RadarChart({
 	return (
 		<ResponsiveContainer width="100%" height={height}>
 			<ComposedChart data={data} margin={{ top: 8, right: 4, left: 4, bottom: 0 }}>
-				<CartesianGrid stroke="oklch(0.3 0.03 260 / 0.35)" vertical={false} />
+				<CartesianGrid stroke="var(--border-soft)" vertical={false} />
 				<XAxis
 					dataKey="timestamp"
 					tickFormatter={(v) => fmtTime(v)}
@@ -89,7 +89,7 @@ export function RadarChart({
 						type="monotone"
 						dataKey="craftCost"
 						name="Craft cost"
-						stroke="oklch(0.68 0.18 305)"
+						stroke="oklch(0.72 0.13 200)"
 						strokeWidth={2}
 						dot={false}
 						activeDot={{ r: 4 }}
@@ -101,7 +101,7 @@ export function RadarChart({
 					type="monotone"
 					dataKey="volume"
 					name="Supply / Volume"
-					stroke="oklch(0.62 0.02 260)"
+					stroke="oklch(0.6 0.015 275)"
 					strokeWidth={1.5}
 					strokeDasharray="5 4"
 					dot={false}
@@ -116,8 +116,8 @@ export function RadarChart({
 export function RadarChartLegend({ hasCraftCost }: { hasCraftCost: boolean }) {
 	const items = [
 		{ label: "Price (Buyout)", color: "var(--accent-strong)", dashed: false },
-		...(hasCraftCost ? [{ label: "Craft cost", color: "oklch(0.68 0.18 305)", dashed: false }] : []),
-		{ label: "Supply / Volume", color: "oklch(0.62 0.02 260)", dashed: true },
+		...(hasCraftCost ? [{ label: "Craft cost", color: "oklch(0.72 0.13 200)", dashed: false }] : []),
+		{ label: "Supply / Volume", color: "oklch(0.6 0.015 275)", dashed: true },
 	];
 	return (
 		<div style={{ display: "flex", gap: 16, marginTop: 4, flexWrap: "wrap" }}>

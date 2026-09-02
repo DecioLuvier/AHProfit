@@ -13,7 +13,7 @@
     padding: 0;
     height: 100%;
     overflow: hidden;
-    background: oklch(0.08 0.025 270);
+    background: oklch(0.12 0.012 275);
     color: var(--text);
     font-family: var(--font-body);
     font-size: 14px;
@@ -68,28 +68,28 @@
 
 /* Keep shadcn primitives in the same visual system as the app. */
 :root {
-  --background: oklch(0.08 0.025 270);
+  --background: oklch(0.12 0.012 275);
   --foreground: var(--text);
   --card: var(--panel-solid);
   --card-foreground: var(--text);
-  --popover: oklch(0.11 0.025 270);
+  --popover: oklch(0.155 0.014 275);
   --popover-foreground: var(--text);
   --primary: var(--accent);
-  --primary-foreground: oklch(0.14 0.02 260);
-  --secondary: oklch(0.14 0.025 270);
+  --primary-foreground: oklch(0.16 0.02 285);
+  --secondary: oklch(0.195 0.014 275);
   --secondary-foreground: var(--text);
-  --muted: oklch(0.16 0.025 270);
+  --muted: oklch(0.225 0.014 275);
   --muted-foreground: var(--text-dim);
   --accent-foreground: var(--text);
   --destructive: var(--bad);
   --border: var(--border-soft);
   --input: var(--border-strong);
   --ring: var(--accent);
-  --sidebar: oklch(0.09 0.03 270 / 0.92);
+  --sidebar: oklch(0.13 0.013 275 / 0.9);
   --sidebar-foreground: var(--text);
   --sidebar-primary: var(--accent);
-  --sidebar-primary-foreground: oklch(0.14 0.02 260);
-  --sidebar-accent: oklch(0.76 0.14 210 / 0.12);
+  --sidebar-primary-foreground: oklch(0.16 0.02 285);
+  --sidebar-accent: oklch(0.64 0.18 285 / 0.14);
   --sidebar-accent-foreground: var(--text);
   --sidebar-border: var(--border-soft);
   --sidebar-ring: var(--accent);

@@ -90,17 +90,28 @@ function CraftItem({ o }: { o: CraftingOpportunity }) {
 	);
 }
 
+/* Lembra a última rota escolhida entre entradas/saídas da página (module-level, some
+   ao recarregar). Evita o "flicker" de seleção ao remontar o componente. */
+let rememberedRouteId: number | null = null;
+
 export function FarmingPage() {
 	const queryClient = useQueryClient();
 	const { data: routes = [] } = useQuery(farmRoutesQuery);
-	const [selectedRouteId, setSelectedRouteId] = useState<number | null>(null);
+	const [selectedRouteId, setSelectedRouteId] = useState<number | null>(rememberedRouteId);
 	const [itemSearch, setItemSearch] = useState("");
 	const [picked, setPicked] = useState<ReadonlySet<number>>(() => new Set());
 	const [farmedPage, setFarmedPage] = useState(0);
-	const effectiveRouteId = selectedRouteId;
+
+	/* Selecionada = a escolhida (se ainda existir) ou, senão, a primeira rota.
+	   Derivado no render → já vem selecionado no 1º frame, sem piscar. */
+	const effectiveRouteId =
+		selectedRouteId != null && routes.some((r) => r.id === selectedRouteId)
+			? selectedRouteId
+			: (routes[0]?.id ?? null);
 
 	function pickRoute(id: number) {
-		setSelectedRouteId((cur) => (cur === id ? null : id));
+		rememberedRouteId = id;
+		setSelectedRouteId(id);
 		setPicked(new Set());
 	}
 	function togglePick(id: number) {
@@ -123,7 +134,8 @@ export function FarmingPage() {
 	function handleDelete(routeId: number) {
 		import("@/shared/api/client").then(({ client }) =>
 			client.farming[":id"].$delete({ param: { id: String(routeId) } }).then(() => {
-				if (effectiveRouteId === routeId) setSelectedRouteId(null);
+				if (rememberedRouteId === routeId) rememberedRouteId = null;
+				if (selectedRouteId === routeId) setSelectedRouteId(null);
 				queryClient.invalidateQueries({ queryKey: ["farming", "routes"] });
 				queryClient.removeQueries({ queryKey: ["farming", routeId] });
 			}),

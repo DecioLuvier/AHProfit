@@ -1,10 +1,11 @@
-import { ArrowDownUp, SlidersHorizontal } from "lucide-react";
-import type { CSSProperties } from "react";
+import { SlidersHorizontal } from "lucide-react";
 import { CursorPagination } from "@/ui/data-display/CursorPagination";
 import { DataTable } from "@/ui/data-display/DataTable";
 import { GlassCard } from "@/ui/data-display/GlassCard";
 import type { useMarketTable } from "../hooks/useMarketTable";
 import { MobileItemCard, marketColumns } from "./MarketColumns";
+
+export type MarketLayout = "full" | "wide" | "compact";
 
 function SkeletonRow() {
 	return (
@@ -12,7 +13,7 @@ function SkeletonRow() {
 			<td colSpan={7} style={{ padding: "9px 10px" }}>
 				<div
 					className="animate-pulse"
-					style={{ height: 32, borderRadius: 4, background: "oklch(0.15 0.02 260 / 0.7)" }}
+					style={{ height: 32, borderRadius: 4, background: "oklch(0.26 0.014 275 / 0.7)" }}
 				/>
 			</td>
 		</tr>
@@ -21,46 +22,28 @@ function SkeletonRow() {
 
 type Vm = ReturnType<typeof useMarketTable>;
 
-const compactBtnStyle: CSSProperties = {
-	display: "inline-flex",
-	alignItems: "center",
-	justifyContent: "center",
-	gap: 6,
-	flex: "0 0 auto",
-	height: 35,
-	padding: "0 10px",
-	border: "1px solid var(--border-strong)",
-	borderRadius: 6,
-	background: "var(--panel-solid)",
-	color: "var(--text)",
-	fontSize: 12,
-	fontWeight: 700,
-	cursor: "pointer",
-};
+const SORT_OPTIONS: { value: string; label: string }[] = [
+	{ value: "", label: "Sort: Default" },
+	{ value: "name", label: "Sort: Name" },
+	{ value: "marketPrice", label: "Sort: Market price" },
+	{ value: "flipPercent", label: "Sort: Flip %" },
+	{ value: "craftCost", label: "Sort: Craft cost" },
+	{ value: "profitMarginPercent", label: "Sort: Margin" },
+	{ value: "groupVolume", label: "Sort: Qty" },
+];
 
-const sortRowStyle: CSSProperties = {
-	display: "flex",
-	alignItems: "center",
-	gap: 7,
-	padding: "2px 2px",
-	color: "var(--text-dimmer)",
-	fontSize: 11,
-};
-
-const sortSelectStyle: CSSProperties = {
-	minWidth: 0,
-	flex: 1,
-	height: 30,
-	padding: "0 8px",
-	border: "1px solid var(--border-strong)",
-	borderRadius: 6,
-	background: "var(--panel-solid)",
-	color: "var(--text)",
-	font: "inherit",
-};
-
-export function MarketResults({ vm, compact, onOpenFilters }: { vm: Vm; compact: boolean; onOpenFilters: () => void }) {
+export function MarketResults({
+	vm,
+	layout,
+	onOpenFilters,
+}: {
+	vm: Vm;
+	layout: MarketLayout;
+	onOpenFilters: () => void;
+}) {
 	const { items, isInitialLoading, sortBy, sortDir, handleSort, prefetchItem, pagination } = vm;
+	const cards = layout === "compact";
+	const showFilters = layout !== "full";
 
 	return (
 		<GlassCard
@@ -76,77 +59,37 @@ export function MarketResults({ vm, compact, onOpenFilters }: { vm: Vm; compact:
 				overflow: "hidden",
 			}}
 		>
-			<div
-				style={{
-					height: compact ? undefined : 44,
-					boxSizing: "border-box",
-					padding: compact ? 12 : "0 16px",
-					borderBottom: "1px solid var(--border-soft)",
-					display: compact ? "grid" : "flex",
-					gridTemplateColumns: compact ? "minmax(0, 1fr)" : undefined,
-					alignItems: "center",
-					justifyContent: compact ? undefined : "space-between",
-					flexShrink: 0,
-					gap: compact ? 9 : 12,
-				}}
-			>
-				{!compact && (
-					<div
-						style={{
-							fontSize: 11,
-							fontWeight: 700,
-							letterSpacing: "0.06em",
-							textTransform: "uppercase",
-							color: "var(--accent-strong)",
-							whiteSpace: "nowrap",
-						}}
-					>
-						Auction House
-					</div>
-				)}
-				<div
-					style={{
-						display: "flex",
-						alignItems: "center",
-						gap: 8,
-						width: "100%",
-						minWidth: 0,
-						justifyContent: compact ? undefined : "flex-end",
-					}}
-				>
+			{/* Cabeçalho — sempre uma linha só. */}
+			<div className="mkt-head" data-compact={cards || undefined}>
+				{!cards && <span className="mkt-head-title">Auction House</span>}
+				<div className="mkt-head-right">
 					<input
+						className="mkt-search"
 						type="text"
 						placeholder="Search by item name…"
 						value={vm.search}
 						onChange={(e) => vm.setSearch(e.currentTarget.value)}
-						style={{ maxWidth: compact ? undefined : 260, width: "100%", minWidth: 0 }}
 					/>
-					{compact && (
-						<button type="button" onClick={onOpenFilters} style={compactBtnStyle}>
-							<SlidersHorizontal size={15} /> Filters
+					{cards && (
+						<select
+							className="mkt-sort"
+							aria-label="Sort by"
+							value={sortBy}
+							onChange={(e) => e.currentTarget.value && handleSort(e.currentTarget.value)}
+						>
+							{SORT_OPTIONS.map((o) => (
+								<option key={o.value} value={o.value}>
+									{o.label}
+								</option>
+							))}
+						</select>
+					)}
+					{showFilters && (
+						<button type="button" className="mkt-filters-btn" onClick={onOpenFilters}>
+							<SlidersHorizontal size={15} /> Options
 						</button>
 					)}
 				</div>
-				{compact && (
-					<div style={sortRowStyle}>
-						<ArrowDownUp size={14} />
-						<label htmlFor="mobile-sort">Sort by</label>
-						<select
-							id="mobile-sort"
-							value={sortBy}
-							onChange={(e) => e.currentTarget.value && handleSort(e.currentTarget.value)}
-							style={sortSelectStyle}
-						>
-							<option value="">Default</option>
-							<option value="name">Name</option>
-							<option value="marketPrice">Market price</option>
-							<option value="craftCost">Craft cost</option>
-							<option value="flipPercent">Flip %</option>
-							<option value="profitMarginPercent">Margin</option>
-							<option value="groupVolume">Quantity</option>
-						</select>
-					</div>
-				)}
 			</div>
 
 			<div
@@ -170,7 +113,7 @@ export function MarketResults({ vm, compact, onOpenFilters }: { vm: Vm; compact:
 							</tbody>
 						</table>
 					</div>
-				) : compact ? (
+				) : cards ? (
 					<div
 						style={{
 							display: "flex",

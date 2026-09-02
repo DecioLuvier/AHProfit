@@ -1,32 +1,39 @@
-/* Paleta inspirada no hero-bg: floresta noturna WoW — azul navy profundo + violeta + ciano frio */
+/* Paleta "console noturno": grafite azulado neutro + um índigo-violeta elétrico
+   como único acento — puxado da magia espectral da arte de fundo. Superfícies
+   quase neutras, um acento vívido, contraste alto. Nada de teal-sobre-teal. */
 :root {
-	/* Backgrounds — translúcidos, sem backdrop-filter (blur usa GPU). */
-	--panel: oklch(0.1 0.025 270 / 0.66);
-	--panel-solid: oklch(0.1 0.025 270 / 0.66);
-	--panel-head: oklch(0.12 0.03 270 / 0.7);
-	--panel-head-solid: oklch(0.11 0.028 270);
+	/* Surfaces — grafite frio quase opaco. A arte (fria) aparece só nas margens
+	   e nos gaps; o scrim por cima vira atmosfera, não concorre com o conteúdo. */
+	--panel: oklch(0.15 0.013 275 / 0.9);
+	--panel-solid: oklch(0.15 0.013 275);
+	--panel-head: oklch(0.185 0.015 275 / 0.92);
+	--panel-head-solid: oklch(0.18 0.015 275);
+	/* Caixas de scroll dentro dos painéis (Attributes, Thresholds…): mesma cor do
+	   box "Item Information" (--panel-solid), só um pouquinho mais escuro. */
+	--panel-inset: oklch(0.13 0.013 276 / 0.88);
 
-	/* Borders */
-	--border: oklch(0.45 0.07 265 / 0.3);
-	--border-soft: oklch(0.45 0.07 265 / 0.15);
-	--border-strong: oklch(0.45 0.07 265 / 0.45);
+	/* Borders — cinza frio com definição (1px nítido, estilo Linear/Arc) */
+	--border: oklch(0.48 0.015 275 / 0.36);
+	--border-soft: oklch(0.48 0.015 275 / 0.16);
+	--border-strong: oklch(0.62 0.02 275 / 0.46);
 
-	/* Text */
-	--text: oklch(0.93 0.01 255);
-	--text-dim: oklch(0.65 0.03 260);
-	--text-dimmer: oklch(0.52 0.025 260);
+	/* Text — branco frio, nunca #fff puro */
+	--text: oklch(0.95 0.006 270);
+	--text-dim: oklch(0.7 0.012 273);
+	--text-dimmer: oklch(0.54 0.014 275);
 
-	/* Accent — ciano elétrico frio (tirado dos olhos/pelo do tigre) */
-	--accent: oklch(0.76 0.14 210);
-	--accent-strong: oklch(0.86 0.12 200);
-	--accent-grad: linear-gradient(135deg, oklch(0.76 0.14 210), oklch(0.6 0.18 240));
+	/* Accent — índigo-violeta elétrico; só em nav ativa, foco, ação primária e
+	   trilho da linha selecionada. Única cor saturada da UI. */
+	--accent: oklch(0.64 0.18 285);
+	--accent-strong: oklch(0.74 0.14 283);
+	--accent-grad: linear-gradient(135deg, oklch(0.64 0.18 285), oklch(0.6 0.19 255));
 
-	/* Semantic */
-	--good: oklch(0.74 0.14 160);
-	--bad: oklch(0.66 0.18 20);
+	/* Semantic — jade p/ lucro, coral p/ perda (fora do range do acento) */
+	--good: oklch(0.76 0.13 165);
+	--bad: oklch(0.65 0.19 20);
 
-	/* Shape */
-	--radius: 8px;
+	/* Shape — raio contido (estilo Linear/Arc); 8px deixava os chips do filtro "bolhudos" */
+	--radius: 6px;
 
 	/* Fonts */
 	--font-display: "Space Grotesk", sans-serif;
@@ -42,13 +49,13 @@
 	background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-	background: oklch(0.38 0.07 260);
+	background: oklch(0.4 0.015 275);
 	border-radius: 3px;
 }
 
 .bagscroll {
 	scrollbar-width: thin;
-	scrollbar-color: oklch(0.38 0.07 260) transparent;
+	scrollbar-color: oklch(0.4 0.015 275) transparent;
 }
 
 /* DataTable owns the single scroll container (both axes). shadcn's <Table> wraps the
@@ -94,8 +101,8 @@
 	gap: 24px;
 	min-height: 60px;
 	padding: 0 clamp(14px, 3vw, 32px);
-	/* Mesma cor/transparência dos glass panels. */
-	background: oklch(0.1 0.025 270 / 0.66);
+	/* Mesma superfície dos painéis (translúcida). */
+	background: var(--panel);
 	border-bottom: 1px solid var(--border-soft);
 }
 
@@ -193,11 +200,11 @@
 }
 .nav-link:hover {
 	color: var(--text);
-	background: oklch(0.76 0.14 210 / 0.08);
+	background: oklch(0.64 0.18 285 / 0.12);
 }
 .nav-link.is-active {
 	color: var(--text);
-	background: oklch(0.76 0.14 210 / 0.14);
+	background: oklch(0.64 0.18 285 / 0.2);
 }
 .navbar-actions {
 	display: flex;
@@ -220,7 +227,7 @@
 	border: 1px solid var(--border-strong);
 }
 .navbar-github {
-	color: oklch(0.14 0.02 260);
+	color: oklch(0.16 0.02 285);
 	background: var(--accent);
 	font-weight: 700;
 }
@@ -230,7 +237,7 @@
 }
 .mobile-navigation-panel {
 	width: min(86vw, 340px) !important;
-	background: oklch(0.09 0.03 270) !important;
+	background: oklch(0.15 0.013 275) !important;
 	color: var(--text) !important;
 	border-color: var(--border-soft) !important;
 }
@@ -275,7 +282,9 @@
 	height: 100dvh;
 	min-height: 0;
 	min-width: 0;
-	padding: 80px clamp(14px, 3vw, 24px) 20px;
+	/* Glass principais: margem lateral FIXA (não escala com a resolução) — mesmo
+	   padrão em qualquer tela, sem "pular" ao redimensionar. */
+	padding: 98px 48px 40px;
 	overflow: hidden;
 }
 
@@ -401,6 +410,7 @@
    nenhuma media query mexe aqui. */
 .market-layout {
 	height: 100%;
+	position: relative;
 }
 
 /* ---------- Farming — bento grid ---------- */
@@ -426,51 +436,75 @@
 }
 .farm-route-card {
 	position: relative;
-	display: inline-flex;
-	align-items: center;
-	border: 1px solid var(--border-strong);
-	border-radius: var(--radius);
+	display: flex;
+	align-items: stretch;
+	min-width: 156px;
+	border: 1px solid var(--border);
+	border-radius: 8px;
 	background: var(--panel);
+	overflow: hidden;
 	transition:
 		border-color 0.14s,
 		background 0.14s,
-		opacity 0.14s;
+		opacity 0.14s,
+		box-shadow 0.14s;
 }
-/* Uma rota selecionada → as outras esmaecem, igual às qualidades do Filters. */
+/* Trilho de seleção na borda esquerda */
+.farm-route-card::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 3px;
+	background: transparent;
+	transition: background 0.14s;
+}
+/* Uma rota selecionada → as outras esmaecem um pouco. */
 .farm-routes-cards.has-selection .farm-route-card:not(.is-active) {
-	opacity: 0.4;
+	opacity: 0.5;
 }
 .farm-routes-cards.has-selection .farm-route-card:not(.is-active):hover {
 	opacity: 1;
 }
 .farm-route-card:hover {
-	border-color: var(--accent);
+	border-color: color-mix(in oklch, var(--accent) 50%, var(--border-strong));
+	background: color-mix(in oklch, var(--accent) 6%, var(--panel));
 }
 .farm-route-card.is-active {
-	border-color: var(--accent);
-	background: oklch(0.32 0.06 205 / 0.5);
+	border-color: color-mix(in oklch, var(--accent) 55%, transparent);
+	background: color-mix(in oklch, var(--accent) 15%, var(--panel));
+	box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--accent) 35%, transparent);
+}
+.farm-route-card.is-active::before {
+	background: var(--accent);
 }
 .farm-route-card-main {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 3px;
-	padding: 8px 30px 8px 14px;
+	gap: 5px;
+	flex: 1;
+	min-width: 0;
+	padding: 9px 32px 9px 14px;
 	font: inherit;
+	text-align: left;
 	background: none;
 	border: none;
 	cursor: pointer;
-	max-width: 250px;
 }
 .farm-route-card-name {
 	font-size: 12.5px;
-	font-weight: 500;
+	font-weight: 600;
 	letter-spacing: 0.01em;
 	color: var(--text-dim);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
+}
+.farm-route-card:hover .farm-route-card-name {
+	color: var(--text);
 }
 .farm-route-card.is-active .farm-route-card-name {
 	color: var(--text);
@@ -479,15 +513,22 @@
 .farm-route-card-meta {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
-	font-size: 10px;
+	gap: 7px;
+	font-size: 9.5px;
 	white-space: nowrap;
 }
 .farm-route-card-id {
 	font-weight: 700;
-	letter-spacing: 0.03em;
-	color: var(--accent);
+	letter-spacing: 0.02em;
+	padding: 1px 5px;
+	border-radius: 4px;
+	color: var(--text-dim);
+	background: var(--panel-head-solid);
 	font-variant-numeric: tabular-nums;
+}
+.farm-route-card.is-active .farm-route-card-id {
+	color: var(--accent-strong);
+	background: color-mix(in oklch, var(--accent) 18%, transparent);
 }
 .farm-route-card-dot {
 	width: 3px;
@@ -496,28 +537,28 @@
 	background: var(--text-dimmer);
 }
 .farm-route-card-date {
-	font-weight: 500;
-	letter-spacing: 0.02em;
+	font-weight: 600;
+	letter-spacing: 0.04em;
 	text-transform: uppercase;
 	color: var(--text-dimmer);
 	font-variant-numeric: tabular-nums;
 }
 .farm-route-card-x {
 	position: absolute;
-	top: 5px;
-	right: 5px;
+	top: 6px;
+	right: 6px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 17px;
-	height: 17px;
+	width: 18px;
+	height: 18px;
 	padding: 0;
 	border: none;
-	border-radius: 999px;
+	border-radius: 5px;
 	background: none;
 	color: var(--text-dimmer);
 	cursor: pointer;
-	font-size: 12px;
+	font-size: 13px;
 	line-height: 1;
 	opacity: 0;
 	transition:
@@ -525,9 +566,8 @@
 		color 0.12s,
 		background 0.12s;
 }
-.farm-route-card:hover .farm-route-card-x,
-.farm-route-card.is-active .farm-route-card-x {
-	opacity: 0.55;
+.farm-route-card:hover .farm-route-card-x {
+	opacity: 0.5;
 }
 .farm-route-card-x:hover {
 	opacity: 1 !important;
@@ -650,7 +690,7 @@
 }
 .cbd-head:hover,
 .cbd-flat:hover {
-	background: oklch(0.35 0.07 255 / 0.14);
+	background: oklch(0.62 0.02 275 / 0.1);
 }
 .cbd-child {
 	padding-left: 28px;
@@ -723,7 +763,7 @@
 .cbd-check.is-on {
 	background: var(--accent-strong);
 	border-color: var(--accent-strong);
-	color: oklch(0.14 0.02 260);
+	color: oklch(0.16 0.02 285);
 }
 .cbd-name {
 	flex: 1;
@@ -893,16 +933,26 @@
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 9px;
 	height: 44px;
 	padding: 0 16px;
 	box-sizing: border-box;
 	border-bottom: 1px solid var(--border-soft);
 	font-size: 11px;
 	font-weight: 700;
-	letter-spacing: 0.06em;
+	letter-spacing: 0.07em;
 	text-transform: uppercase;
 	color: var(--accent-strong);
+}
+.cfg-subhead > span:first-child::before {
+	content: "";
+	display: inline-block;
+	width: 3px;
+	height: 12px;
+	margin-right: 9px;
+	border-radius: 2px;
+	background: var(--accent);
+	vertical-align: -2px;
 }
 .cfg-subhead-hint {
 	margin-left: auto;
@@ -951,24 +1001,27 @@
 	min-width: 0;
 	display: flex;
 	align-items: center;
-	gap: 12px;
-	padding: 14px 15px;
+	gap: 13px;
+	padding: 15px 16px;
 	text-align: left;
 	border: 1.5px dashed var(--border-strong);
 	border-radius: 10px;
-	background: transparent;
+	background: var(--panel-inset);
 	transition:
 		border-color 0.14s,
-		background 0.14s;
+		background 0.14s,
+		box-shadow 0.14s;
 }
 .cfgx-drop:hover {
 	border-color: var(--accent-strong);
-	background: color-mix(in oklch, var(--accent-strong) 6%, transparent);
+	background: color-mix(in oklch, var(--accent) 9%, var(--panel-inset));
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 12%, transparent);
 }
 .cfgx-drop.is-loaded {
 	border-style: solid;
-	border-color: color-mix(in oklch, var(--good) 55%, transparent);
-	background: color-mix(in oklch, var(--good) 7%, transparent);
+	border-color: color-mix(in oklch, var(--good) 50%, transparent);
+	background: color-mix(in oklch, var(--good) 10%, var(--panel-inset));
+	box-shadow: none;
 }
 .cfgx-drop input {
 	position: absolute;
@@ -1017,50 +1070,78 @@
 	text-overflow: ellipsis;
 }
 
-/* Import — lista simples de passos, dividida em linhas iguais (sem timeline conectada). */
+/* Import — lista numerada de passos, altura natural. */
 .cfgx-timeline {
 	flex: 1;
 	min-height: 0;
 	list-style: none;
 	margin: 0;
-	padding: 8px 16px;
+	padding: 10px 16px 16px;
 	display: flex;
 	flex-direction: column;
 }
 .cfgx-step {
-	flex: 1;
-	min-height: 0;
+	position: relative;
+	flex-shrink: 0;
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 13px;
+	padding: 14px 6px 14px 4px;
 }
-.cfgx-step + .cfgx-step {
-	border-top: 1px solid var(--border-soft);
+/* Linha vertical ligando os números → lê como "passos em ordem". */
+.cfgx-step:not(:last-child)::before {
+	content: "";
+	position: absolute;
+	left: 14px;
+	top: calc(50% + 13px);
+	bottom: calc(-50% + 13px);
+	width: 2px;
+	background: var(--border-soft);
 }
-.cfgx-step-dot {
+/* Número do passo (ou ✓ quando pronto) */
+.cfgx-step-num {
 	flex-shrink: 0;
-	width: 8px;
-	height: 8px;
+	width: 22px;
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	border-radius: 999px;
-	background: var(--border-strong);
-	transition: background 0.14s;
+	border: 1px solid var(--border-strong);
+	background: var(--panel-inset);
+	color: var(--text-dim);
+	font-size: 11px;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	transition:
+		border-color 0.14s,
+		background 0.14s,
+		color 0.14s;
 }
-.cfgx-step.is-ready .cfgx-step-dot {
-	background: var(--accent-strong);
+.cfgx-step.is-ready .cfgx-step-num {
+	border-color: var(--accent);
+	color: var(--accent-strong);
 }
-.cfgx-step.is-running .cfgx-step-dot {
-	background: var(--accent);
+.cfgx-step.is-running .cfgx-step-num {
+	border-color: var(--accent);
+	color: var(--accent);
 	animation: imp-pulse 1s ease-in-out infinite;
 }
-.cfgx-step.is-done .cfgx-step-dot {
+.cfgx-step.is-done .cfgx-step-num {
+	border-color: transparent;
 	background: var(--good);
+	color: oklch(0.17 0.02 160);
 }
-.cfgx-step.is-error .cfgx-step-dot {
-	background: var(--bad);
+.cfgx-step.is-error .cfgx-step-num {
+	border-color: var(--bad);
+	color: var(--bad);
+}
+.cfgx-step.is-blocked .cfgx-step-num {
+	opacity: 0.45;
 }
 @keyframes imp-pulse {
 	50% {
-		opacity: 0.3;
+		opacity: 0.4;
 	}
 }
 .cfgx-step-body {
@@ -1079,8 +1160,9 @@
 .cfgx-step-name {
 	flex: 1;
 	min-width: 0;
-	font-size: 13.5px;
+	font-size: 13px;
 	font-weight: 700;
+	letter-spacing: 0.01em;
 	color: var(--text);
 }
 .cfgx-step.is-blocked .cfgx-step-name {
@@ -1089,9 +1171,12 @@
 .cfgx-step-sub {
 	display: block;
 	margin-top: 3px;
-	font-size: 11.5px;
+	font-size: 11px;
 	line-height: 1.45;
 	color: var(--text-dimmer);
+}
+.cfgx-step.is-blocked .cfgx-step-sub {
+	font-style: italic;
 }
 .cfgx-step.is-done .cfgx-step-sub {
 	color: color-mix(in oklch, var(--good) 78%, var(--text-dim));
@@ -1101,21 +1186,24 @@
 }
 .cfgx-step-btn {
 	flex-shrink: 0;
-	padding: 6px 14px;
-	border-radius: 999px;
+	padding: 6px 15px;
+	border-radius: 7px;
 	font: inherit;
-	font-size: 11.5px;
+	font-size: 11px;
 	font-weight: 700;
+	letter-spacing: 0.02em;
 	border: 1px solid var(--accent-strong);
 	background: var(--accent-strong);
-	color: oklch(0.14 0.02 260);
+	color: oklch(0.16 0.02 285);
 	cursor: pointer;
 	transition:
 		filter 0.12s,
-		opacity 0.12s;
+		opacity 0.12s,
+		box-shadow 0.12s;
 }
 .cfgx-step-btn:hover:not(:disabled) {
 	filter: brightness(1.08);
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 16%, transparent);
 }
 .cfgx-step-btn:disabled {
 	opacity: 0.5;
@@ -1206,6 +1294,16 @@
 	text-transform: uppercase;
 	color: var(--accent-strong);
 }
+.cfg-term-count {
+	margin-left: auto;
+	padding: 1px 7px;
+	border-radius: 999px;
+	background: var(--panel-head-solid);
+	color: var(--text-dim);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0;
+}
 .cfg-term-body {
 	flex: 1;
 	min-height: 0;
@@ -1217,6 +1315,37 @@
 	color: var(--text-dimmer);
 	white-space: pre-wrap;
 	word-break: break-word;
+}
+/* Estado vazio do stream log — no lugar do vazio preto. */
+.cfg-term-empty {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	text-align: center;
+	padding: 24px;
+	font-family: var(--font-body);
+}
+.cfg-term-empty-mark {
+	font-family: ui-monospace, monospace;
+	font-size: 26px;
+	font-weight: 700;
+	color: color-mix(in oklch, var(--accent) 45%, var(--text-dimmer));
+	opacity: 0.6;
+	margin-bottom: 6px;
+}
+.cfg-term-empty p {
+	margin: 0;
+	font-size: 12.5px;
+	color: var(--text-dim);
+}
+.cfg-term-empty-sub {
+	max-width: 240px;
+	font-size: 11px !important;
+	color: var(--text-dimmer) !important;
+	line-height: 1.5;
 }
 .cfg-term-line.is-sys {
 	color: var(--accent-strong);
@@ -1244,13 +1373,10 @@
 	flex-direction: column;
 }
 .mng-group {
-	padding: 14px 0;
+	padding: 16px 0;
 }
 .mng-group:first-child {
-	flex: 1;
-	min-height: 0;
-	display: flex;
-	flex-direction: column;
+	flex-shrink: 0;
 }
 .mng-group:last-child {
 	flex-shrink: 0;
@@ -1265,26 +1391,22 @@
 	letter-spacing: 0.09em;
 	text-transform: uppercase;
 	color: var(--text-dimmer);
-	padding: 0 18px 6px;
+	padding: 0 18px 10px;
 }
 
-/* Snapshots: Auctions e Inventory lado a lado. */
+/* Snapshots: Auctions e Inventory lado a lado — altura natural, compactos. */
 .mng-snaps {
-	flex: 1;
-	min-height: 0;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 12px;
-	padding: 0 18px 14px;
+	padding: 0 18px;
 }
-/* Cada snapshot é uma caixa com scroll próprio, igual a Attributes/Thresholds. */
 .mng-snap {
-	min-height: 0;
-	overflow-y: auto;
-	padding: 10px 12px;
-	background: transparent;
+	overflow: visible;
+	padding: 12px 13px;
+	background: var(--panel-inset);
 	border: 1px solid var(--border-soft);
-	border-radius: var(--radius);
+	border-radius: 8px;
 }
 .mng-snap-top {
 	display: flex;
@@ -1318,7 +1440,7 @@
 	border-radius: 8px;
 	font-size: 11px;
 	color: var(--text-dim);
-	background: oklch(0.5 0.03 265 / 0.06);
+	background: oklch(0.62 0.02 275 / 0.06);
 }
 .mng-batch-meta {
 	flex: 1;
@@ -1356,35 +1478,45 @@
 	color: var(--text-dimmer);
 }
 
+/* Ação destrutiva: discreta por padrão (ghost neutro), vira vermelha só no
+   hover, e sólida quando "armada" pelo InlineConfirm. */
 .mng-wipe {
 	flex-shrink: 0;
-	padding: 5px 12px;
-	border-radius: 6px;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 4px 10px;
+	border-radius: 7px;
 	font: inherit;
 	font-size: 11px;
-	font-weight: 700;
+	font-weight: 600;
+	letter-spacing: 0.01em;
 	white-space: nowrap;
-	border: 1px solid var(--bad);
+	border: 1px solid var(--border-strong);
 	background: transparent;
-	color: var(--bad);
+	color: var(--text-dim);
 	cursor: pointer;
 	transition:
-		background 0.12s,
-		color 0.12s;
+		background 0.13s,
+		color 0.13s,
+		border-color 0.13s;
 }
 .mng-wipe:hover {
-	background: color-mix(in oklch, var(--bad) 14%, transparent);
+	border-color: color-mix(in oklch, var(--bad) 55%, transparent);
+	background: color-mix(in oklch, var(--bad) 12%, transparent);
+	color: var(--bad);
 }
 .mng-wipe--sm {
 	margin-top: 9px;
-	padding: 4px 10px;
+	padding: 3px 9px;
 	font-size: 10px;
 }
 /* Estado armado do InlineConfirm: fundo sólido, sem popup. */
 .mng-wipe[data-armed],
 .mng-wipe[data-armed]:hover {
+	border-color: var(--bad);
 	background: var(--bad);
-	color: #fff;
+	color: oklch(0.98 0.01 20);
 }
 .mng-batch-meta {
 	flex: 1;
@@ -1501,10 +1633,9 @@
 	.navbar-external span {
 		display: none;
 	}
-	.app-main {
-		padding-top: 76px;
-		padding-bottom: 12px;
-	}
+	/* .app-main padding NÃO muda aqui de propósito: mudar o padding lateral num
+	   breakpoint faz a largura da área de conteúdo dar um "salto" e o modo do
+	   Auction House pular de estado. Padding lateral fixo em toda resolução. */
 }
 
 @media (max-width: 560px) {
@@ -1596,7 +1727,7 @@
 	border-top: 1px solid var(--border-soft);
 }
 .reagent-row:hover {
-	background: oklch(0.35 0.07 255 / 0.16);
+	background: oklch(0.62 0.02 275 / 0.1);
 }
 .reagent-row-name {
 	flex: 1;
@@ -1723,12 +1854,201 @@
 	font-size: 13px;
 }
 
+/* ---------- Cabeçalho do Auction House — sempre uma linha, sempre 44px ---------- */
+.mkt-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+	box-sizing: border-box;
+	height: 44px;
+	padding: 0 14px;
+	border-bottom: 1px solid var(--border-soft);
+}
+.mkt-head-title {
+	flex-shrink: 0;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--accent-strong);
+	white-space: nowrap;
+}
+.mkt-head-right {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+.mkt-head[data-compact] .mkt-head-right {
+	margin-left: 0;
+	flex: 1;
+}
+/* As três peças do header têm exatamente a mesma altura (35px, border-box). */
+.mkt-head .mkt-search,
+.mkt-head .mkt-sort,
+.mkt-head .mkt-filters-btn {
+	height: 35px;
+	box-sizing: border-box;
+	border-radius: 6px;
+}
+.mkt-head .mkt-search {
+	width: 100%;
+	max-width: 260px;
+	min-width: 0;
+	padding: 0 12px;
+	font-size: 13px;
+}
+.mkt-head[data-compact] .mkt-search {
+	max-width: none;
+	flex: 1 1 auto;
+}
+.mkt-sort {
+	flex: 0 0 auto;
+	max-width: 168px;
+	min-width: 0;
+	padding: 0 8px;
+	border: 1px solid var(--border-strong);
+	background: var(--panel-head-solid);
+	color: var(--text);
+	font: inherit;
+	font-size: 12px;
+	cursor: pointer;
+}
+.mkt-filters-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	flex: 0 0 auto;
+	padding: 0 12px;
+	border: 1px solid var(--border-strong);
+	background: var(--panel-head-solid);
+	color: var(--text);
+	font-size: 12px;
+	font-weight: 700;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: border-color 0.12s;
+}
+.mkt-filters-btn:hover {
+	border-color: var(--accent);
+}
+
+/* ---------- Identidade do item (ícone + nome + tags) — igual na tabela e no compacto ---------- */
+.mkc-id {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	min-width: 0;
+	flex: 1;
+	color: inherit;
+	text-decoration: none;
+}
+.mkc-id > img,
+.mkc-id > span {
+	flex-shrink: 0;
+}
+.mkc-name {
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.mkc-sub {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+	margin-top: 3px;
+	font-size: 8.5px;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	color: var(--text-dimmer);
+	white-space: nowrap;
+}
+/* Cada linha reserva altura mesmo vazia → linhas do item sempre com a mesma altura. */
+.mkc-sub-row {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	min-height: 12px;
+}
+.mkc-sub-row > * {
+	flex-shrink: 0;
+}
+.mkc-tag {
+	font-weight: 700;
+	padding: 0 4px;
+	border-radius: 3px;
+	border: 1px solid;
+	line-height: 1.35;
+}
+.mkc-tag--craft {
+	color: var(--accent-strong);
+	border-color: color-mix(in oklch, var(--accent-strong) 45%, transparent);
+}
+.mkc-tag--reagent {
+	color: var(--good);
+	border-color: color-mix(in oklch, var(--good) 45%, transparent);
+}
+
+/* ---------- Auction House compacto — mesma linha da tabela, mas com os valores
+   empilhados no canto direito em vez de espalhados em colunas ---------- */
+.mkc {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--border-soft);
+	transition: background 0.12s ease;
+}
+.mkc:hover {
+	background: oklch(0.62 0.02 275 / 0.09);
+}
+.mkc:active {
+	background: oklch(0.62 0.02 275 / 0.14);
+}
+.mkc-right {
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	min-width: 148px;
+}
+.mkc-metric {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 14px;
+	font-size: 11.5px;
+	line-height: 1.5;
+	font-variant-numeric: tabular-nums;
+}
+.mkc-metric > span {
+	font-size: 9px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--text-dimmer);
+}
+.mkc-metric > b {
+	font-weight: 700;
+}
+.mkc-metric-price {
+	font-size: 13px;
+	color: var(--accent);
+}
+
 /* Hover row — CSS puro, sem Motion */
 .data-row {
 	transition: background 0.12s ease;
 }
 .data-row:hover {
-	background: oklch(0.35 0.07 255 / 0.18);
+	background: oklch(0.62 0.02 275 / 0.11);
 }
 
 /* Badge links externos */
@@ -1760,9 +2080,9 @@
 	transform: scale(0.97);
 }
 .btn-secondary {
-	background: oklch(0.13 0.025 270 / 0.7);
+	background: oklch(0.22 0.014 275 / 0.8);
 	border: 1px solid var(--border-strong);
-	color: oklch(0.82 0.03 255);
+	color: var(--text);
 	padding: 6px 14px;
 	border-radius: 5px;
 	font-size: 13px;
@@ -1777,7 +2097,7 @@ button {
 }
 input[type="text"],
 input[type="number"] {
-	background: oklch(0.1 0.025 270 / 0.75);
+	background: oklch(0.13 0.014 275 / 0.85);
 	border: 1px solid var(--border-strong);
 	border-radius: 6px;
 	padding: 8px 12px;
@@ -1794,7 +2114,7 @@ input[type="number"] {
 input[type="text"]:focus,
 input[type="number"]:focus {
 	border-color: var(--accent);
-	box-shadow: 0 0 0 2px oklch(0.76 0.14 210 / 0.2);
+	box-shadow: 0 0 0 3px oklch(0.64 0.18 285 / 0.28);
 }
 
 /* Page title */

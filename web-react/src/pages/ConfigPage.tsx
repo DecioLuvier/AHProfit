@@ -29,6 +29,7 @@ function parseJsonlLines(jsonl: string | undefined): Record<string, unknown>[] {
 }
 
 function StepNode({
+	num,
 	title,
 	description,
 	stepKey,
@@ -36,6 +37,7 @@ function StepNode({
 	onImport,
 	needsFile,
 }: {
+	num: number;
 	title: string;
 	description: string;
 	stepKey: string;
@@ -54,7 +56,9 @@ function StepNode({
 
 	return (
 		<li className={`cfgx-step ${state}`}>
-			<span className="cfgx-step-dot" aria-hidden="true" />
+			<span className="cfgx-step-num" aria-hidden="true">
+				{done ? "✓" : num}
+			</span>
 			<div className="cfgx-step-body">
 				<div className="cfgx-step-top">
 					<span className="cfgx-step-name">{title}</span>
@@ -238,6 +242,7 @@ export function ConfigPage() {
 							</div>
 							<ol className="cfgx-timeline">
 								<StepNode
+									num={1}
 									title="Items bundle"
 									description="Item catalog, recipes and disenchanting data."
 									stepKey="items"
@@ -246,6 +251,7 @@ export function ConfigPage() {
 									needsFile={itemsLuaText ? null : "Items.lua"}
 								/>
 								<StepNode
+									num={2}
 									title="Auctions"
 									description="Auction house listings and prices."
 									stepKey="auctions"
@@ -254,6 +260,7 @@ export function ConfigPage() {
 									needsFile={svLuaText ? null : "SavedVariables.lua"}
 								/>
 								<StepNode
+									num={3}
 									title="Characters"
 									description="Character info, race, class and realm."
 									stepKey="characters"
@@ -262,6 +269,7 @@ export function ConfigPage() {
 									needsFile={svLuaText ? null : "SavedVariables.lua"}
 								/>
 								<StepNode
+									num={4}
 									title="Farming"
 									description="Farm routes and items per hour."
 									stepKey="farming"
@@ -270,6 +278,7 @@ export function ConfigPage() {
 									needsFile={svLuaText ? null : "SavedVariables.lua"}
 								/>
 								<StepNode
+									num={5}
 									title="Inventory"
 									description="Bag contents and professions per character."
 									stepKey="inventory"
